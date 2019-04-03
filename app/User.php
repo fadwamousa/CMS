@@ -48,4 +48,9 @@ class User extends Authenticatable
         return $this->hasMany(Post::class,'user_id');
         //second Argumants the foriegn key in post table
     }
+
+    public function roles(){
+
+        return $this->belongsToMany(Role::class);
+    }
 }
