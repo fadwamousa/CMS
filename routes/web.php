@@ -1,4 +1,6 @@
 <?php
+
+use App\Post;
 /*
 Route::get('admin/posts/example',array('as'=>'admin.home',function(){
 
@@ -132,4 +134,16 @@ Route::get('/find',function(){
 
 Route::get('/update_data',function(){
 	App\Post::where('id',2)->where('is_admin',0)->update(['title'=>'Yas is very bad Compny','body'=>'Yas is very Bad and ugly company in egypt']);
+});
+
+Route::get('/delete_data',function(){
+	App\Post::where('id',2)->where('is_admin',0)->delete();
+});
+
+Route::get('/delete_way',function(){
+	App\Post::destroy(4);
+});
+
+Route::get('/soft_delete',function(){
+	Post::find(11)->delete();
 });
