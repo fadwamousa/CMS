@@ -143,7 +143,7 @@ Route::get('/delete_data',function(){
 Route::get('/delete_way',function(){
 	App\Post::destroy(4);
 });
-
+//delete by using soft delete
 Route::get('/soft_delete',function(){
 	Post::find(11)->delete();
 });
@@ -153,4 +153,16 @@ Route::get('/trashed',function(){
 	//$del = Post::withTrashed()->get();
 	//return $del;
 	$del = Post::onlyTrashed()->where('id',11)->get();return $del;
+});
+
+//restore and convert delete to correct data
+Route::get('/restore',function(){
+	
+	$del = Post::withTrashed()->where('id',11)->restore();
+});
+
+//delete data permently
+Route::get('/force',function(){
+	
+	$del = Post::withTrashed()->where('id',11)->forceDelete();
 });
