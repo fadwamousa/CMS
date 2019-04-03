@@ -147,3 +147,10 @@ Route::get('/delete_way',function(){
 Route::get('/soft_delete',function(){
 	Post::find(11)->delete();
 });
+
+//get the data taht deleted by using this is function 
+Route::get('/trashed',function(){
+	//$del = Post::withTrashed()->get();
+	//return $del;
+	$del = Post::onlyTrashed()->where('id',11)->get();return $del;
+});
