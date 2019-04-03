@@ -1,6 +1,7 @@
 <?php
 
 use App\Post;
+use App\User;
 /*
 Route::get('admin/posts/example',array('as'=>'admin.home',function(){
 
@@ -141,18 +142,18 @@ Route::get('/delete_data',function(){
 });
 
 Route::get('/delete_way',function(){
-	App\Post::destroy(4);
+	App\Post::destroy(10);
 });
 //delete by using soft delete
 Route::get('/soft_delete',function(){
-	Post::find(11)->delete();
+	Post::find(10)->delete();
 });
 
 //get the data taht deleted by using this is function 
 Route::get('/trashed',function(){
 	//$del = Post::withTrashed()->get();
 	//return $del;
-	$del = Post::onlyTrashed()->where('id',11)->get();return $del;
+	$del = Post::onlyTrashed()->where('id',10)->get();return $del;
 });
 
 //restore and convert delete to correct data
@@ -165,4 +166,31 @@ Route::get('/restore',function(){
 Route::get('/force',function(){
 	
 	$del = Post::withTrashed()->where('id',11)->forceDelete();
+});
+
+
+Route::get('user/{id}/post',function($id){
+	//$user = User::find($id)->post->title;
+	$user = User::find($id)->post->body;
+	return $user;
+});
+//get the number of user then get all posts belongs to him
+
+Route::get('post/{id}/user',function($id){
+	
+	$post = Post::find($id)->user->name;
+	return $post;
+});
+//who the user that write n post
+
+Route::get('/posts',function(){
+
+	$user = User::find(1);
+
+	foreach ($user->posts as $post) {
+
+		echo $post->title."<br/>";
+	
+	}
+
 });
