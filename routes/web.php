@@ -2,6 +2,8 @@
 
 use App\Post;
 use App\User;
+use App\Country;
+use App\Photo;
 /*
 Route::get('admin/posts/example',array('as'=>'admin.home',function(){
 
@@ -198,9 +200,76 @@ Route::get('/posts',function(){
 
 Route::get('/user/{id}/role',function($id){
 
-	$user = User::find($id);
+	//$user = User::find($id);
+      $user = User::find($id)->roles()->select('name')->get();
+	return $user;
+	/*
 	foreach ($user->roles as $role) {
 		return  $role->name;
 	}
+	*/
 	
 });
+
+Route::get('/user/pivot',function(){
+
+    $user = User::find(1);
+	foreach ($user->roles as $role){
+
+		return $role->pivot->created_at;
+		
+	}
+
+});
+
+Route::get('/user/country',function(){
+
+	$country = Country::find(1);
+	foreach ($country->posts as $post) {
+		return $post->title;
+	}
+});
+//polymorphic
+Route::get('/user/photo',function(){
+
+	$user = User::find(1);
+    
+	foreach($user->photos as $photo) {
+		
+		//return $photo->path;
+		return $photo;
+	}
+});
+
+Route::get('/post/{id}/photo',function($id){
+
+	$post = Post::find($id);
+    
+	foreach($post->photos as $photo) {
+		
+		//return $photo->path;
+		echo  $photo;
+	}
+});
+
+//get the photo for who
+Route::get('photo/{id}/post',function($id){
+	$photo = Photo::findOrFail($id);
+	return $photo->imageable;
+});
+
+
+Route::get('post/tag',function(){
+	$post = Post::findOrFail(1);
+	foreach ($post->tags as $tag) {
+		echo  $tag->name;
+	}
+});
+
+Route::get('tag/post',function(){
+	$tag = App\Tag::findOrFail(2);
+	foreach ($tag->posts as $post) {
+		return   $post->title;
+	}
+});
+
